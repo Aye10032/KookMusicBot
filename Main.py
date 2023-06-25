@@ -34,7 +34,7 @@ def process_json():
 
     print(decrypted_content)
 
-    data = json.loads(decrypted_content)
+    data = json.loads(str(decrypted_content))
     print(data)
     challenge = data['d']['challenge']
     return jsonify({'challenge': challenge})
