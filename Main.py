@@ -28,6 +28,8 @@ def process_json():
     parsed_message = json.loads(uncompressed_data)  # 解析JSON字符串
     encrypted_content = parsed_message['encrypt']  # 提取密文
 
+    print(encrypted_content)
+
     key = "88MVdZ9"
     decryptor = Encrypt(key)
     decrypted_content = decryptor.aes_decrypt(encrypted_content)
