@@ -23,9 +23,13 @@ class Encrypt:
 
 @app.route('/', methods=['POST'])
 def process_json():
-    compressed_data = request.data  # 获取压缩后的数据
-    uncompressed_data = zlib.decompress(compressed_data)  # 将数据解压缩
-    print(json.dumps(Encrypt.aes_decrypt(uncompressed_data), indent=4))
+    compressed_data = request.data
+    uncompressed_data = zlib.decompress(compressed_data)
+
+    key = "88MVdZ9"
+    decryptor = Encrypt(key)
+    decrypted_content = decryptor.aes_decrypt(uncompressed_data)
+    print(json.dumps(decrypted_content, indent=4))
     return 'OK'
 
 
