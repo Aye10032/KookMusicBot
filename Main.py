@@ -32,8 +32,7 @@ def process_json():
     decryptor = Encrypt(key)
     decrypted_content = decryptor.aes_decrypt(encrypted_content)
 
-    print(decrypted_content)
-    print(len(decrypted_content))
+    print('[' + decrypted_content + ']')
 
     data = json.loads(str(decrypted_content))
     print(data)
