@@ -32,7 +32,7 @@ def process_json():
     decryptor = Encrypt(key)
     decrypted_content = decryptor.aes_decrypt(encrypted_content)
 
-    data = json.loads(decrypted_content)
+    data = json.loads(decrypted_content, strict=False)
     print(data)
     challenge = data['d']['challenge']
     return jsonify({'challenge': challenge})
