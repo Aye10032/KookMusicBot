@@ -18,7 +18,7 @@ class Encrypt:
         str = base64.b64decode(content)
         iv = str[0:16]
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return cipher.decrypt(base64.b64decode(str[16:])).decode('utf-8') + ''
+        return cipher.decrypt(base64.b64decode(str[16:])).decode('utf-8')
 
 
 @app.route('/', methods=['POST'])
@@ -28,11 +28,13 @@ def process_json():
     parsed_message = json.loads(uncompressed_data)  # 解析JSON字符串
     encrypted_content = parsed_message['encrypt']  # 提取密文
 
+    print(encrypted_content)
+
     key = "88MVdZ9"
     decryptor = Encrypt(key)
     decrypted_content = decryptor.aes_decrypt(encrypted_content)
 
-    print('[' + decrypted_content + ']')
+    print('[' + decrypted_content + ' ')
 
     data = json.loads(str(decrypted_content))
     print(data)
