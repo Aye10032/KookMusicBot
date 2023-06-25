@@ -24,17 +24,16 @@ class Encrypt:
 @app.route('/', methods=['POST'])
 def process_json():
     compressed_data = request.data
-    print(compressed_data)
     uncompressed_data = zlib.decompress(compressed_data)
     parsed_message = json.loads(uncompressed_data.decode('utf-8'))  # 解析JSON字符串
     encrypted_content = parsed_message['encrypt']  # 提取密文
-    print(encrypted_content)
+    print(f'[{encrypted_content}]')
 
     key = "88MVdZ9"
     decryptor = Encrypt(key)
     decrypted_content = decryptor.aes_decrypt(encrypted_content)
 
-    print(decrypted_content)
+    print(f'[{decrypted_content}]')
 
     data = json.loads(str(decrypted_content))
     print(data)
