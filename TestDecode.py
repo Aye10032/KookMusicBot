@@ -14,6 +14,7 @@ class Encrypt:
         cipher = AES.new(self.key, AES.MODE_CBC, iv)
         return cipher.decrypt(base64.b64decode(str[16:])).decode('utf-8')
 
+
 msg = 'YmQ5MzgyOTE0ODZlNWZkMnJhREV0NEJJOEdrVTNyQUs4SVAvcDZmNXhZaUNMZDV2bGErelRIcVA1TCtpcXBlNTJQVitFUDVGZS9vV1dWQXZlTzRhOEEzeWZMSWlPa0hxZDdlcEVkZlNhOVZuZE5odXVpVmFOLzRhQXhWUFJCa3FRSUhNeFpsYWlycGRyMnVKa0c3MmQ4QUNqWHRxWVhmMlREVHMyTENISHVRYWFlaUVtVkprQ1VPQ3Q1ST0='
 key = '88MVdZ9'
 decryptor = Encrypt(key)
