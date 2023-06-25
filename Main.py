@@ -1,3 +1,5 @@
+import zlib
+
 from flask import Flask, request
 from Crypto.Cipher import AES
 import base64
@@ -21,8 +23,9 @@ class Encrypt:
 
 @app.route('/', methods=['POST'])
 def process_json():
-    content = request.json
-    print(json.dumps(content, indent=4))
+    compressed_data = request.data  # 获取压缩后的数据
+    uncompressed_data = zlib.decompress(compressed_data)  # 将数据解压缩
+    print(json.dumps(Encrypt.aes_decrypt(uncompressed_data), indent=4))
     return 'OK'
 
 
