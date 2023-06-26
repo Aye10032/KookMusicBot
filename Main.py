@@ -1,36 +1,21 @@
-import zlib
-
-from flask import Flask, request, jsonify
-from Crypto.Cipher import AES
-import base64
 import json
+import zlib
+import uvicorn
+from fastapi import FastAPI, Request
 
-app = Flask(__name__)
-
-
-class Encrypt:
-    def __init__(self, key, bs=32):
-        pad = lambda s: s + (bs - len(s)) * "\0"
-        key = pad(key)
-        self.key = key.encode('utf-8')
-
-    def aes_decrypt(self, content):
-        str = base64.b64decode(content)
-        iv = str[0:16]
-        cipher = AES.new(self.key, AES.MODE_CBC, iv)
-        return cipher.decrypt(base64.b64decode(str[16:])).decode('utf-8')
+app = FastAPI()
 
 
-@app.route('/', methods=['POST'])
-def process_json():
-    compressed_data = request.data
+@app.post('/')
+async def process_json(request: Request):
+    compressed_data = await request.body()
     uncompressed_data = zlib.decompress(compressed_data)
-    parsed_message = json.loads(uncompressed_data.decode('utf-8'))  # 解析JSON字符串
+    parsed_message = json.loads(uncompressed_data.decode('utf-8'))
 
-    print(parsed_message)
-    challenge = parsed_message['d']['challenge']
-    return jsonify({'challenge': challenge})
+    if parsed_message['d']['channel_type'] == 'WEBHOOK_CHALLENGE':
+        challenge = parsed_message['d']['challenge']
+        return {'challenge': challenge}
 
 
 if __name__ == '__main__':
-    app.run(port=9500, debug=True)
+    uvicorn.run(app, host='0.0.0.0', port=9500)
