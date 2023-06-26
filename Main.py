@@ -15,6 +15,8 @@ async def process_json(request: Request):
     if parsed_message['d']['channel_type'] == 'WEBHOOK_CHALLENGE':
         challenge = parsed_message['d']['challenge']
         return {'challenge': challenge}
+    else:
+        print(parsed_message)
 
 
 if __name__ == '__main__':
